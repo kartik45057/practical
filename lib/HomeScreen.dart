@@ -158,48 +158,53 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       body: loadedProducts.length>0?
-          Container(
-            child: ListView.builder(
-                itemBuilder: (context,index){
-                  return Column(
-                    children: [
-                        ListTile(
-                        title: Text("${loadedProducts[index]['title']}"),
-                        subtitle: Text("${loadedProducts[index]['description']}"),
-                          trailing: GestureDetector(
-                            onTap: () async {
-                              try{
-                                setState(() {
-                                  isLoading=true;
-                                });
+          ListView.builder(
+              itemBuilder: (context,index){
+                return Column(
+                  children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 1.0),
+                        child: Card(
+                          elevation: 5,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text("${index+1}"),
+                            ),
+                          title: Text("${loadedProducts[index]['title']}"),
+                          subtitle: Text("${loadedProducts[index]['description']}"),
+                            trailing: GestureDetector(
+                              onTap: () async {
+                                try{
+                                  setState(() {
+                                    isLoading=true;
+                                  });
 
-                                FirebaseFirestore docRef = await FirebaseFirestore.instance;
-                                docRef.collection("Tasks").doc(loadedProducts[index]['id'])
-                                    .delete();
-                                loadedProducts.removeAt(index);
-                                setState(() {
-                                  isLoading=false;
-                                });
+                                  FirebaseFirestore docRef = await FirebaseFirestore.instance;
+                                  docRef.collection("Tasks").doc(loadedProducts[index]['id'])
+                                      .delete();
+                                  loadedProducts.removeAt(index);
+                                  setState(() {
+                                    isLoading=false;
+                                  });
 
-                              }catch (error){
-                                throw error;
-                              }
+                                }catch (error){
+                                  throw error;
+                                }
 
-                            },
-                              child: Icon(Icons.check)
-                          ),
+                              },
+                                child: Icon(Icons.check)
+                            ),
+                    ),
+                        ),
                       ),
-                      const Divider(
-                        thickness: 2,
-                      )
-                    ],
-                  );
-                },
-                itemCount: loadedProducts.length,
-            ),
+
+                  ],
+                );
+              },
+              itemCount: loadedProducts.length,
           )
-          :Center(
-        child: const Text("No task added yet"),
+          :const Center(
+        child: Text("No task added yet"),
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -226,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.symmetric(vertical: 30.0),
                             child: Text("Add Task",
                               style: TextStyle(
