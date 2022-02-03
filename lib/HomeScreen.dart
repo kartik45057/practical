@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var loadedProducts1=[];
   var loadedProducts=[];
 
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final fav = Provider.of<Favorites>(context);
-    //final products = loadedItem.items;
+    final item = fav.items;
 
     return Scaffold(
 
@@ -66,17 +67,22 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Users List"),
         actions:  [
           GestureDetector(
-            onTap: (){
-              var l=[];
-              for(int i=0;i<loadedProducts.length;i++){
-                if(loadedProducts[i]["gender"]=="male"){
-                  l.add(loadedProducts[i]);
-                }
-              }
-              //print("filtered item is ${l}");
+            onTap: () async {
+              //var l=[];
+              // for(int i=0;i<loadedProducts.length;i++){
+              //   if(loadedProducts[i]["gender"]=="male"){
+              //     l.add(loadedProducts[i]);
+              //   }
+              // }
+              // //print("filtered item is ${l}");
+
+              String myUrl = "https://randomuser.me/api/?gender=male";
+              var req = await http.get(Uri.parse(myUrl));
+              var temp = json.decode(req.body);
+
 
               setState(() {
-                loadedProducts=l;
+                loadedProducts=temp['results'];
               });
             },
             child: const Padding(
@@ -87,17 +93,22 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           GestureDetector(
-            onTap:(){
-              var l=[];
-              for(int i=0;i<loadedProducts.length;i++){
-                if(loadedProducts[i]["gender"]=="female"){
-                  l.add(loadedProducts[i]);
-                }
-              }
+            onTap:() async {
+              //var l=[];
+              // for(int i=0;i<loadedProducts.length;i++){
+              //   if(loadedProducts[i]["gender"]=="female"){
+              //     l.add(loadedProducts[i]);
+              //   }
+              // }
               //print("filtered item is ${l}");
+              String myUrl = "https://randomuser.me/api/?gender=female";
+              var req = await http.get(Uri.parse(myUrl));
+              var temp = json.decode(req.body);
+
+
 
               setState(() {
-                loadedProducts=l;
+                loadedProducts=temp["results"];
               });
             },
             child: const Padding(
@@ -108,17 +119,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           GestureDetector(
-            onTap: (){
-              var l=[];
-              for(int i=0;i<loadedProducts1.length;i++){
-
-                  l.add(loadedProducts1[i]);
-
-              }
+            onTap: () async {
+              // var l=[];
+              // for(int i=0;i<loadedProducts1.length;i++){
+              //
+              //     l.add(loadedProducts1[i]);
+              //
+              // }
               //print("filtered item is ${l}");
+              String myUrl = "https://randomuser.me/api/?page=1&results=10&seed=abc-";
+              var req = await http.get(Uri.parse(myUrl));
+              var temp = json.decode(req.body);
+
 
               setState(() {
-                loadedProducts=l;
+                loadedProducts=temp['results'];
               });
             },
             child: const Padding(
@@ -147,16 +162,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 title: Text("${loadedProducts[index]["name"]["title"]} ${loadedProducts[index]["name"]["first"]} ${loadedProducts[index]["name"]["last"]}"),
                 subtitle: Text("${loadedProducts[index]["phone"]}"),
-                trailing: IconButton(icon: Icon(Icons.favorite_border, color: Colors.red,), onPressed: () async {
-                  fav.add(index);
-                  var snackBar = const SnackBar(content: Text('Added to favorites',textAlign: TextAlign.center));
+                trailing: item.contains(index)?IconButton(icon: Icon(Icons.favorite, color: Colors.red), onPressed: () {
+                  var snackBar = const SnackBar(content: Text('Item Already Added',textAlign: TextAlign.center));
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },):
+                IconButton(icon: Icon(Icons.favorite_border, color: Colors.black), onPressed: () {
+                  fav.add(index);
+                    var snackBar = const SnackBar(content: Text('Added to favorites',textAlign: TextAlign.center));
+                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                  //Navigator.popAndPushNamed(context, CartDetail.routename);
-                 // await Navigator.push(context, MaterialPageRoute(builder: (
-                      //BuildContext context) => FavoriteScreen(loadedProducts1)));
-
-                }),
+                },)
+                // ), onPressed: () async {
+                //   fav.add(index);
+                //   var snackBar = const SnackBar(content: Text('Added to favorites',textAlign: TextAlign.center));
+                //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //
+                //   //Navigator.popAndPushNamed(context, CartDetail.routename);
+                //  // await Navigator.push(context, MaterialPageRoute(builder: (
+                //       //BuildContext context) => FavoriteScreen(loadedProducts1)));
+                //
+                // }),
               ),
             ),
           );
