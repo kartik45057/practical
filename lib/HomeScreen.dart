@@ -45,10 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
     infos = json.decode(req.body);
     loadedProducts = infos["results"];
     loadedProducts1= infos["results"];
-    print("infos is ${infos["results"]}");
-    print(loadedProducts.length);
-    print(loadedProducts[0]["gender"]);
-    print(loadedProducts[0]["email"]);
+   // print("infos is ${infos["results"]}");
+    //print(loadedProducts.length);
+    // print(loadedProducts[0]["gender"]);
+    // print(loadedProducts[0]["email"]);
     setState(() {
 
     });
@@ -153,8 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                   //Navigator.popAndPushNamed(context, CartDetail.routename);
-                  await Navigator.push(context, MaterialPageRoute(builder: (
-                      BuildContext context) => FavoriteScreen(loadedProducts1)));
+                 // await Navigator.push(context, MaterialPageRoute(builder: (
+                      //BuildContext context) => FavoriteScreen(loadedProducts1)));
 
                 }),
               ),
@@ -162,6 +162,13 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
         itemCount: loadedProducts.length,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => FavoriteScreen(loadedProducts1)));
+          },
+          icon: const Icon(Icons.arrow_forward_ios),
+          label: const Text("Go To Favorites"),
       ),
 
     );

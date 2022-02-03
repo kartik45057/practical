@@ -19,43 +19,40 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     final items = loadedItem.items;
     final wid = MediaQuery.of(context).size.width;
     return Scaffold(
-        body:Container(
-          height: MediaQuery.of(context).size.height ,
+      appBar: AppBar(
+        title: Text("Favorites"),
+      ),
+        body:ListView.builder(
+          itemBuilder: (ctx , index) {
+            return GestureDetector(
+              onTap: () async {
+                //await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfileScreen(loadedProducts[index])));
 
-          //height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Container(
-                height: (MediaQuery.of(context).size.height),
-                //height: MediaQuery.of(context).size.height *0.9,
+              },
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
 
-                child: ListView.builder(
-                  itemBuilder: (ctx , index) {
-                    return GestureDetector(
-                      onTap: () async {
-                        //await Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ProfileScreen(loadedProducts[index])));
-
+                    title: Text("${widget.fav[items[index]]["name"]["title"]} ${widget.fav[items[index]]["name"]["first"]} ${widget.fav[items[index]]["name"]["last"]}"),
+                    subtitle: Text("${widget.fav[items[index]]["email"]}"),
+                    trailing: GestureDetector(
+                      onTap: (){
+                        print("original index ${index}");
+                        print("item index ${items[index]}");
+                        loadedItem.remove(items[index]);
                       },
-                      child: Card(
-                        elevation: 5,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text("${index+1}"),
-                          ),
-                          title: Text("${widget.fav[items[index]]["gender"]}"),
-                          subtitle: Text("${widget.fav[items[index]]["email"]}"),
+                        child: Icon(Icons.clear)
+                    ),
 
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: items.length,
-
+                  ),
                 ),
               ),
+            );
+          },
+          itemCount: items.length,
 
-            ],
-          ),
         )
     );
   }

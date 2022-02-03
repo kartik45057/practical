@@ -14,7 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("My Account"),
+          title: Text("${widget.item["name"]["first"]} ${widget.item["name"]["last"]}"),
         ),
         body:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,6 +83,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
+                  Container(
+                    width: double.infinity,
+                    //height: 100,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0,horizontal: 8),
+                        child:RichText(
+                          text: TextSpan(
+                            //text: 'Hello ',
+                            //style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(text: "${widget.item["location"]["street"]["number"]}", style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w400
+                              )),
+                              TextSpan(text: '\n\n${widget.item["location"]["street"]["name"]},  ${widget.item["location"]["city"]}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+
+                                  )
+                              ),
+                              TextSpan(text: '\n${widget.item["location"]["state"]},  ${widget.item["location"]["country"]} - ${widget.item["location"]["postcode"]} \n\nPh :- ${widget.item["phone"]} '
+
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+
+                                  )
+                              ),
+                              TextSpan(text: '\n\nD.O.B :- ${widget.item["dob"]["date"]},'
+
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+
+                                  )
+                              ),
+                              TextSpan(text: '\n\nAge :- ${widget.item["dob"]["age"]},'
+
+                                  ,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+
+                                  )
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+
                 ],
               ),
             ),
