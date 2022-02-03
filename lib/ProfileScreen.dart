@@ -17,6 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: Text("My Account"),
         ),
         body:Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          //mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               width: double.infinity,
@@ -34,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: EdgeInsets.all(15),
                       child:Image.network("${widget.item["picture"]["large"]}")
                     ),
-                    Text(widget.item["login"]["username"],style: TextStyle(
+                    Text(widget.item["login"]["username"],style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
                         color: Colors.white
@@ -44,6 +46,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    //height: 100,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0,horizontal: 8),
+                        child: Text( "Email:- ${widget.item["email"]}",style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+
+                        ),),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    //height: 100,
+                    child: Card(
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15.0,horizontal: 8),
+                        child: Text( "cell:- ${widget.item["cell"]}",style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black
+
+                        ),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
           ],
         )
     );

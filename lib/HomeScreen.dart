@@ -145,8 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: CircleAvatar(
                   child: Text("${index+1}"),
                 ),
-                title: Text("${loadedProducts[index]["gender"]}"),
-                subtitle: Text("${loadedProducts[index]["email"]}"),
+                title: Text("${loadedProducts[index]["name"]["title"]} ${loadedProducts[index]["name"]["first"]} ${loadedProducts[index]["name"]["last"]}"),
+                subtitle: Text("${loadedProducts[index]["phone"]}"),
                 trailing: IconButton(icon: Icon(Icons.favorite_border, color: Colors.red,), onPressed: () async {
                   fav.add(index);
                   var snackBar = const SnackBar(content: Text('Added to favorites',textAlign: TextAlign.center));
