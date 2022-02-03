@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var infos;
   var loadedProducts1=[];
   var loadedProducts=[];
+  var currentPage=1;
 
 
   @override
@@ -41,11 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getData() async {
-    String myUrl = "https://randomuser.me/api/?page=1&results=10&seed=abc-";
+    //String myUrl = "https://randomuser.me/api/?page=1&results=10&seed=abc-";
+    String myUrl = "https://randomuser.me/api/?page=${currentPage}&results=10";
     var req = await http.get(Uri.parse(myUrl));
     infos = json.decode(req.body);
     loadedProducts = infos["results"];
     loadedProducts1= infos["results"];
+    currentPage++;
    // print("infos is ${infos["results"]}");
     //print(loadedProducts.length);
     // print(loadedProducts[0]["gender"]);
@@ -66,6 +69,36 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Users List"),
         actions:  [
+          GestureDetector(
+            onTap: () async {
+              //var l=[];
+              // for(int i=0;i<loadedProducts.length;i++){
+              //   if(loadedProducts[i]["gender"]=="male"){
+              //     l.add(loadedProducts[i]);
+              //   }
+              // }
+              print("current page is ${currentPage}");
+
+              String myUrl = "https://randomuser.me/api/?page=${currentPage}&results=10";
+              var req = await http.get(Uri.parse(myUrl));
+              var temp = json.decode(req.body);
+              currentPage++;
+              for(int i = 0; i<temp["results"].length;i++){
+                loadedProducts.add(temp['results'][i]);
+              }
+
+              setState(() {
+
+              });
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 7),
+              child: CircleAvatar(
+                child: Icon(Icons.refresh)
+              ),
+            ),
+          ),
+
           GestureDetector(
             onTap: () async {
               //var l=[];
